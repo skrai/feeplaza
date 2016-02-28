@@ -32,8 +32,8 @@ public class WebApplicationConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
-        registry.addResourceHandler("/**")
-                .addResourceLocations("/static/");
+        registry.addResourceHandler("*.ts", "*.js", "*.map", "*.html", "*.css")
+                .addResourceLocations("/");
     }
 
     @Override

@@ -48,17 +48,20 @@ task explodedWar(type: Copy, dependsOn: npmRunTsc) {
 }
 
 war {
-    into('static/node_modules') {
+    from('src/main/ts')
+    into('node_modules') {
         from('node_modules') {
             include '**/*.js'
             include '**/*.map'
         }
     }
-    into('static') {
-        from('src/main/ts')
-    }
 }
-war.dependsOn npmRunTsc, explodedWar
+war.dependsOn npmRunTsc
+
+task deployWar(type: Copy, dependsOn: war) {
+    from war.archivePath
+    into "${buildDir}/tomcat"
+}
 
 dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
