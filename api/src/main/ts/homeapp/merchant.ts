@@ -1,4 +1,4 @@
-exportclassMerchant {
-    publicid: number;
-public city: string;
+export class Merchant {
+    public id: number;
+    public city: string;
 }

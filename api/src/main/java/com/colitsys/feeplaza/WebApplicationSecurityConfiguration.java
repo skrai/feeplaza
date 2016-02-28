@@ -40,6 +40,6 @@ public class WebApplicationSecurityConfiguration extends WebSecurityConfigurerAd
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/static/**");
+                .antMatchers("/**/*.ts", "/**/*.js", "/**/*.map", "/**/*.html", "/**/*.css");
     }
 }
