@@ -47,12 +47,15 @@ public class WebMvcController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/login?logout";
+        ModelAndView model = new ModelAndView();
+        model.addObject("message", logoutMessage);
+        model.setViewName("login");
+        return model;
     }
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)

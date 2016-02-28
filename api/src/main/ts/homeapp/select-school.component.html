@@ -1,0 +1,16 @@
+<div>
+    <h3>{{title}}</h3>
+    <div class="grid grid-pad">
+        <div *ngFor="#school of schools" (click)="gotoCity(city)" class="col-1-4">
+            <div class="module school">
+                <span font-weight="bold">{{school.name}}</span>
+                <span>{{school.address1}}</span>
+                <span>{{school.address2}}</span>
+                <span>{{school.city}}</span>
+            </div>
+        </div>
+    </div>
+    <!--<div>
+        <button (click)="goBack()">Back</button>
+    </div>-->
+</div>

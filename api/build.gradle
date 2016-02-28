@@ -1,6 +1,9 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.1.RELEASE")
@@ -22,6 +25,40 @@ repositories {
 configurations {
     providedRuntime
 }
+
+idea {
+    module {
+        excludeDirs += file('node_modules')
+        excludeDirs += file('bower_components')
+    }
+}
+
+task npmInstall(type: Exec) {
+    onlyIf { !file('node_modules').exists() }
+    commandLine "npm.cmd", "install"
+}
+
+task npmRunTsc(type: Exec, dependsOn: npmInstall) {
+    commandLine "npm.cmd", "run", "tsc"
+}
+
+task explodedWar(type: Copy, dependsOn: npmRunTsc) {
+    into "$buildDir/exploded"
+    with war
+}
+
+war {
+    into('static/node_modules') {
+        from('node_modules') {
+            include '**/*.js'
+            include '**/*.map'
+        }
+    }
+    into('static') {
+        from('src/main/ts')
+    }
+}
+war.dependsOn npmRunTsc, explodedWar
 
 dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
